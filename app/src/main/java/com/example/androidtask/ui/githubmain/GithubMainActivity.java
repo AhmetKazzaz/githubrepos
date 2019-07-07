@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidtask.R;
 import com.example.androidtask.adapters.ReposRecyclerViewAdapter;
 import com.example.androidtask.model.GithubReposResponse;
-import com.example.androidtask.model.GithubRepository;
 import com.example.androidtask.mvp.MvpActivity;
 import com.example.androidtask.ui.custom.MessageDialog;
 import com.example.androidtask.ui.custom.pagination.PaginatedView;
@@ -94,16 +94,28 @@ public class GithubMainActivity extends MvpActivity<GithubMainInterface.Presente
             public void afterTextChanged(Editable s) {
             }
         });
+        etSearch.setOnKeyListener((v, keyCode, keyEvent) -> {
+            if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                if (!etSearch.getText().toString().isEmpty()) {
+                    searchRepos();
+                }
+                return true;
+            }
+            return false;
+        });
     }
 
-    @OnClick(R.id.ibSearch)
-    public void onSearchImageButtonClicked() {
+    private void searchRepos() {
         adapter.clear();
         searchedKeyWord = etSearch.getText().toString().trim();
         showLoading(true);
         presenter.getGithubRepos(searchedKeyWord, perPage, page);
     }
 
+    @OnClick(R.id.ibSearch)
+    public void onSearchImageButtonClicked() {
+        searchRepos();
+    }
 
     @NonNull
     @Override

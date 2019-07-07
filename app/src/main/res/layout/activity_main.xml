@@ -37,21 +37,13 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/ibSearch"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_search"
-                android:tint="@color/black" />
-
             <EditText
                 android:id="@+id/etSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/SEARCH_REPOS"
                 android:imeOptions="actionSearch"
@@ -62,6 +54,17 @@
                 <requestFocus />
 
             </EditText>
+
+
+            <ImageButton
+                android:id="@+id/ibSearch"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_search"
+                android:tint="@color/black" />
 
 
         </LinearLayout>
