@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="status_bar">#0067A4</color>
+    <color name="navigationBarColor">#0067A4</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="logout_color">#D14F3F</color>
+
+    <color name="navigationDrawer">#222D32</color>
+    <color name="navigationDrawerText">#BFCFD6</color>
+    <color name="navigationDrawerTitle">#414E54</color>
+    <color name="navigationChild">#35434A</color>
+    <color name="black">#000000</color>
+
+    <!--dashboard-->
+    <color name="dashboardGreen">#006A35</color>
+    <color name="dashboardGreyOpacity">#66444444</color>
+    <color name="dashboardGreenOpacity">#44006A35</color>
+    <color name="dashboardBlue">#00ACD7</color>
+    <color name="dashboardDarkBlue">#367FA9</color>
+    <color name="dashboardOrange">#F39C11</color>
+    <color name="dashboardGrey">#444444</color>
+    <color name="dashboardLightGrey">#A7A7A7</color>
+    <color name="dashboardRed">#DD4B39</color>
+    <color name="dashboardPurple">#605CA8</color>
+    <color name="dashboardBorderGrey">#BCC3CB</color>
+    <color name="greyLoading">#f1f1f1</color>
+
+    <color name="carGreen">#0C6A3B</color>
+    <color name="carRed">#DB0C0C</color>
+
+
+    <color name="bluePrimary">#0067A4</color>
+    <color name="lightBluePrimary">#0087d7</color>
+    <color name="dashboardBackgroundGrey">#ECF0F5</color>
+    <color name="damage_car_part">#ff6666</color>
+
+</resources>

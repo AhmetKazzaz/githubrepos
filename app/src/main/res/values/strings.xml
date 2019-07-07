@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">AndroidTask</string>
+    <string name="DEFAULT_BRANCH">Default Branch</string>
+    <string name="LANGUAGE">Language</string>
+    <string name="NOT_AVAILABLE">Not Available</string>
+    <string name="REPOSITORY_DETAIL">Repository Detail</string>
+    <string name="GITHUB_REPOS">Github Repositories</string>
+    <string name="SEARCH_REPOS">Search Public Repositories</string>
+    <string name="CLOSE">Close</string>
+    <string name="ERROR">An error has occured</string>
+    <string name="UNKOWN_ERROR">The unexpected error is unkown!</string>
+    <string name="USER_DETAILS">User Details</string>
+    <string name="REPOSITORIES">User Repositories</string>
+    <string name="SOMETHING_WRONG_HAPPENED">Oops!!, Something Wrong Happened!</string>
+</resources>
