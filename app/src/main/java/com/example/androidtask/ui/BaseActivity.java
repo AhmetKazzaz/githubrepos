@@ -70,12 +70,4 @@ abstract public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void setFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.contentFragment, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .commit();
-    }
-
 }

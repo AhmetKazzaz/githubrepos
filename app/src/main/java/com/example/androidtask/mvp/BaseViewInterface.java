@@ -1,4 +1,4 @@
 package com.example.androidtask.mvp;
 
-public class BaseViewInterface {
+public interface BaseViewInterface {
 }

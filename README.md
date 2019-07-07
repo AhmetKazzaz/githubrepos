@@ -1,4 +1,4 @@
-# Github Browser Demo (or whatever the name is)
+# Github Browser Demo
 
 This demo searches, lists github repositories, and shows detailed info about a repository, and owner of it.
 

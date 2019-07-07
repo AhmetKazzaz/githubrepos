@@ -21,7 +21,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/BaseTheme.NoActionBar" />
         <activity
-            android:name=".ui.GithubMainActivity"
+            android:name=".ui.githubmain.GithubMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseTheme.NoActionBar">
             <intent-filter>
