@@ -1,4 +1,9 @@
 package com.example.androidtask.mvp;
 
-public interface BasePresenterInterface {
+public interface BasePresenterInterface<V extends BaseViewInterface> {
+
+    void onAttach(V view);
+
+    void onDetach();
+
 }

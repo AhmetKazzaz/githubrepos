@@ -1,19 +1,21 @@
 # Github Browser Demo
 
-This demo searches, lists github repositories, and shows detailed info about a repository, and owner of it.
+This demo searches public github repositories, shows basic information about a repository and the owner of it.
 
 **This is a demo for GeneralMobile's challenge.**
 
 
 ### Structure
 
-**The app has following packages:**
+**The app has the following packages:**
 
-* `adapters`: RecyclerView adapters 
+* `adapters`: RecyclerView adapters
 * `api`: declaration of Retrofit endpoints and configurations.
 * `model`: Response POJOs, and ui related models.
 * `ui`: activities/fragments are declared in small mvp(s) under this package.
-* `ui/custom`: Contains reusable ui components. 
+* `ui/custom`: Contains reusable ui components.
+* `mvp`: Base Model View Presenter classes (eliminating redundant code).
+
 
 
 
@@ -21,7 +23,8 @@ This demo searches, lists github repositories, and shows detailed info about a r
 ### Library References:
 1. RxJava2: [https://github.com/ReactiveX/RxJava](https://github.com/ReactiveX/RxJava)
 2. Retrofit: [https://github.com/square/retrofit](https://github.com/square/retrofit)
-....
+4. Picasso: [https://github.com/square/picasso](https://github.com/square/picasso)
+3. ButterKnife: [https://github.com/JakeWharton/butterknife](https://github.com/JakeWharton/butterknife)
 
 
 ### License

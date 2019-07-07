@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 /**
  * Interface for views to implement when pagination of data is needed
  */
-public interface PaginationInterface {
+public interface PaginatedView {
 
     /**
      * Animates a returned view based on dx, dy scroll

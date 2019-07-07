@@ -11,6 +11,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/swipeRefresh"
         app:layout_constraintTop_toTopOf="parent">
 
         <include layout="@layout/toolbar" />
@@ -18,34 +19,36 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefersh"
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar_layout">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar_layout">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/headerDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/bluePrimary"
-                    android:padding="16dp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:padding="16dp">
 
                     <ImageView
                         android:id="@+id/ivAvatar"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_centerHorizontal="true"
-                        tools:src="@drawable/github_default_image"
-                        android:contentDescription="TODO" />
+                        tools:src="@drawable/github_default_image" />
 
                     <TextView
                         android:id="@+id/tvRepoName"
@@ -81,10 +84,9 @@
                     android:id="@+id/llEmailLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/greyLoading"
+                    android:background="@color/lightGrey"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/headerDetails">
+                    android:padding="16dp">
 
                     <TextView
                         android:id="@+id/tvEmail"
@@ -102,10 +104,9 @@
                     android:id="@+id/llForkLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/greyLoading"
+                    android:background="@color/lightGrey"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/llEmailLayout">
+                    android:padding="16dp">
 
                     <TextView
                         android:id="@+id/tvForkCount"
@@ -123,10 +124,9 @@
                     android:id="@+id/llDefaultBranch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/greyLoading"
+                    android:background="@color/lightGrey"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/llForkLayout">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -140,19 +140,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColor="@color/dashboardGrey"
+                        android:textColor="@color/midGrey"
                         android:textSize="14sp"
                         tools:text="Something master" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llLanguage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/greyLoading"
+                    android:background="@color/lightGrey"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/llDefaultBranch">
+                    android:padding="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -167,17 +167,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="@string/NOT_AVAILABLE"
-                        android:textColor="@color/dashboardGrey"
+                        android:textColor="@color/midGrey"
                         android:textSize="14sp" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </ScrollView>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

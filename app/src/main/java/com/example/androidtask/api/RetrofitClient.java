@@ -11,7 +11,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
+/**
+ * Singleton class that is responsible for providing the retrofit client.
+ *
+ */
 public class RetrofitClient {
 
     private static final RetrofitClient ourInstance = new RetrofitClient();
@@ -30,7 +33,6 @@ public class RetrofitClient {
         OkHttpClient client = null;
         try {
             client = new OkHttpClient.Builder()
-                    .addInterceptor(new ErrorHandlingInterceptor())
                     .addInterceptor(loggingInterceptor)
                     .sslSocketFactory(new TLSSocketFactory(), new X509TrustManager() {
                         @Override
@@ -63,6 +65,10 @@ public class RetrofitClient {
                 .build();
     }
 
+    /**
+     * Endpoints interface to be created as a service for retrofit.
+     * @return: Endpoints interface
+     */
     public Endpoints endpoints() {
         return retrofit.create(Endpoints.class);
     }

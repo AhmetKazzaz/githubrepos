@@ -17,12 +17,12 @@ import retrofit2.http.Query;
 public interface Endpoints {
 
     @GET("search/repositories")
-    Observable<GithubReposResponse> gitGithubRepos(@NonNull @Query("q") String qualifier,
+    Observable<GithubReposResponse> getGithubRepos(@NonNull @Query("q") String qualifier,
                                                    @Query("per_page") int perPage,
                                                    @Query("page") int page);
 
     @GET("repositories/{id}")
-    Observable<GithubRepository> gitGithubRepository(@Path(value = "id") int id);
+    Observable<GithubRepository> getGithubRepository(@Path(value = "id") int id);
 
     @GET("users/{login}")
     Observable<Owner> getGithubUser(@Path(value = "login") String login);

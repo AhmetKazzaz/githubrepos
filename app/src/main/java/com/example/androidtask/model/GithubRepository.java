@@ -2,7 +2,9 @@ package com.example.androidtask.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GithubRepository {
+import java.io.Serializable;
+
+public class GithubRepository implements Serializable {
     public int id;
     public String description;
     public String name;

@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:text="@string/SOMETHING_WRONG_HAPPENED"
             android:textAlignment="center"
-            android:textColor="@color/dashboardGrey"
+            android:textColor="@color/midGrey"
             android:textSize="24sp"
             android:textStyle="italic|bold" />
 

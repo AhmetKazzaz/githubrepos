@@ -12,7 +12,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * @author fkrauthan
+ * Class to support networking for older API versions of Android
  */
 public class TLSSocketFactory extends SSLSocketFactory {
 

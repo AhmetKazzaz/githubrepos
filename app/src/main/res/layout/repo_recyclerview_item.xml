@@ -53,7 +53,7 @@
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/ivAvatar"
             android:layout_toRightOf="@id/ivAvatar"
-            android:textColor="@color/dashboardGrey"
+            android:textColor="@color/midGrey"
             tools:text="Ahmet Kazaz" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

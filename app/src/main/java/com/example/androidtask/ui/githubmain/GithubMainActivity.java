@@ -19,10 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidtask.R;
 import com.example.androidtask.adapters.ReposRecyclerViewAdapter;
 import com.example.androidtask.model.GithubReposResponse;
-import com.example.androidtask.ui.BaseActivity;
+import com.example.androidtask.model.GithubRepository;
+import com.example.androidtask.mvp.MvpActivity;
 import com.example.androidtask.ui.custom.MessageDialog;
+import com.example.androidtask.ui.custom.pagination.PaginatedView;
 import com.example.androidtask.ui.custom.pagination.PaginationHelper;
-import com.example.androidtask.ui.custom.pagination.PaginationInterface;
 import com.example.androidtask.ui.repositorydetail.RepositoryDetailActivity;
 import com.example.androidtask.ui.userdetail.UserDetailActivity;
 
@@ -30,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GithubMainActivity extends BaseActivity implements PaginationInterface,
+public class GithubMainActivity extends MvpActivity<GithubMainInterface.PresenterInterface> implements PaginatedView,
         ReposRecyclerViewAdapter.OnRepoItemClickListener,
         ReposRecyclerViewAdapter.OnRepoAvatarClickListener,
         GithubMainInterface.ViewInterface {
@@ -56,7 +57,12 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
     private LinearLayoutManager linearLayoutManager;
     private int page = 1;
     private String searchedKeyWord;
-    private GithubMainPresenter presenter;
+    private PaginationHelper paginationAbstract;
+
+    @Override
+    public GithubMainInterface.PresenterInterface initializePresenter() {
+        return new GithubMainPresenter();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +71,11 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setTitle(R.string.GITHUB_REPOS);
-        presenter = new GithubMainPresenter(this);
         adapter = new ReposRecyclerViewAdapter(this, this);
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         reposRecyclerView.setLayoutManager(linearLayoutManager);
         reposRecyclerView.setAdapter(adapter);
-        PaginationHelper paginationAbstract = new PaginationHelper(this);
+        paginationAbstract = new PaginationHelper(this);
         ibSearch.setEnabled(false);
         ibSearch.setAlpha(0.3f);
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -95,8 +100,7 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
     public void onSearchImageButtonClicked() {
         adapter.clear();
         searchedKeyWord = etSearch.getText().toString().trim();
-        isLoading = true;
-        adapter.addLoadingFooter();
+        showLoading(true);
         presenter.getGithubRepos(searchedKeyWord, perPage, page);
     }
 
@@ -110,6 +114,7 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
     @Nullable
     @Override
     public void loadMoreItems() {
+        showLoading(true);
         page = page + 1;
         presenter.getGithubRepos(searchedKeyWord, perPage, page);
     }
@@ -153,11 +158,6 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
         startActivity(intent);
     }
 
-    public void onDestroy() {
-        //todo: call presenter.destroy();
-        super.onDestroy();
-    }
-
     @Override
     protected boolean actionBarBackButton() {
         return false;
@@ -165,7 +165,7 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
 
     @Override
     public void displayResult(GithubReposResponse githubReposResponse) {
-        removeLoading();
+        showLoading(false);
         this.githubReposResponse = githubReposResponse;
         adapter.addAll(githubReposResponse.items);
 
@@ -173,15 +173,18 @@ public class GithubMainActivity extends BaseActivity implements PaginationInterf
 
     @Override
     public void displayError(String errorMessage) {
-        removeLoading();
+        showLoading(false);
         MessageDialog messageDialog = new MessageDialog(this);
         messageDialog.setTitle(getString(R.string.ERROR));
         messageDialog.setContent(errorMessage != null ? errorMessage : getString(R.string.UNKOWN_ERROR));
         messageDialog.show();
     }
 
-    private void removeLoading() {
-        isLoading = false;
-        adapter.removeLoadingFooter();
+    private void showLoading(boolean show) {
+        isLoading = show;
+        if (show)
+            adapter.addLoadingFooter();
+        else
+            adapter.removeLoadingFooter();
     }
 }

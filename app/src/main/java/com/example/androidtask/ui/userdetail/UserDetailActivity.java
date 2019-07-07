@@ -10,15 +10,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidtask.ui.BaseActivity;
+import com.example.androidtask.R;
 import com.example.androidtask.adapters.UserDetailListAdapter;
 import com.example.androidtask.model.GithubRepository;
 import com.example.androidtask.model.Owner;
 import com.example.androidtask.model.ui.UserCompleteData;
-import com.example.androidtask.ui.custom.pagination.PaginationHelper;
-import com.example.androidtask.ui.custom.pagination.PaginationInterface;
-import com.example.androidtask.R;
+import com.example.androidtask.mvp.MvpActivity;
 import com.example.androidtask.ui.custom.MessageDialog;
+import com.example.androidtask.ui.custom.pagination.PaginationHelper;
+import com.example.androidtask.ui.custom.pagination.PaginatedView;
 import com.jakewharton.retrofit2.adapter.rxjava2.Result;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class UserDetailActivity extends BaseActivity implements PaginationInterface,
+public class UserDetailActivity extends MvpActivity<UserDetailInterface.PresenterInterface> implements PaginatedView,
         UserDetailInterface.ViewInterface {
 
     public static final String EXTRA_NAME = "name";
@@ -47,7 +47,11 @@ public class UserDetailActivity extends BaseActivity implements PaginationInterf
     private PaginationHelper paginationAbstract;
     private String lastPage;
     private UserDetailListAdapter adapter;
-    private UserDetailPresenter presenter;
+
+    @Override
+    public UserDetailInterface.PresenterInterface initializePresenter() {
+        return new UserDetailPresenter();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,6 @@ public class UserDetailActivity extends BaseActivity implements PaginationInterf
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setTitle(R.string.USER_DETAILS);
-        presenter = new UserDetailPresenter(this);
         paginationAbstract = new PaginationHelper(this);
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);

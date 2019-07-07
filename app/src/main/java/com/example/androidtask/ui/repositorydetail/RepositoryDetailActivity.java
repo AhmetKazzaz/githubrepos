@@ -8,18 +8,19 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.androidtask.ui.BaseActivity;
-import com.example.androidtask.ui.userdetail.UserDetailActivity;
-import com.example.androidtask.model.ui.UserCompleteData;
 import com.example.androidtask.R;
+import com.example.androidtask.model.ui.UserCompleteData;
+import com.example.androidtask.mvp.MvpActivity;
 import com.example.androidtask.ui.custom.MessageDialog;
+import com.example.androidtask.ui.userdetail.UserDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RepositoryDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, RepositoryInterface.viewInterface {
+public class RepositoryDetailActivity extends MvpActivity<RepositoryInterface.PresenterInterface> implements
+        SwipeRefreshLayout.OnRefreshListener, RepositoryInterface.ViewInterface {
 
     public static final String EXTRA_ITEM_ID = "itemId";
     public static final String EXTRA_ITEM_OWNER_LOGIN = "itemOwnerLogin";
@@ -48,10 +49,15 @@ public class RepositoryDetailActivity extends BaseActivity implements SwipeRefre
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.swipeRefersh)
-    SwipeRefreshLayout swipeRefersh;
-    private RepositoryDetailPresenter presenter;
+    @BindView(R.id.swipeRefresh)
+    SwipeRefreshLayout swipeRefresh;
     private String name;
+
+
+    @Override
+    public RepositoryInterface.PresenterInterface initializePresenter() {
+        return new RepositoryDetailPresenter();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +66,8 @@ public class RepositoryDetailActivity extends BaseActivity implements SwipeRefre
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         setTitle(R.string.REPOSITORY_DETAIL);
-        swipeRefersh.setOnRefreshListener(this);
-        swipeRefersh.setRefreshing(true);
-        presenter = new RepositoryDetailPresenter(this);
+        swipeRefresh.setOnRefreshListener(this);
+        swipeRefresh.setRefreshing(true);
         presenter.getRepoDataRequest(
                 getIntent().getIntExtra(EXTRA_ITEM_ID, -1),
                 getIntent().getStringExtra(EXTRA_ITEM_OWNER_LOGIN)
@@ -83,13 +88,12 @@ public class RepositoryDetailActivity extends BaseActivity implements SwipeRefre
 
     @Override
     protected void onDestroy() {
-        presenter.onActivityDestroy();
         super.onDestroy();
     }
 
     @Override
     public void onRefresh() {
-        swipeRefersh.setRefreshing(true);
+        swipeRefresh.setRefreshing(true);
         presenter.getRepoDataRequest(
                 getIntent().getIntExtra(EXTRA_ITEM_ID, -1),
                 getIntent().getStringExtra(EXTRA_ITEM_OWNER_LOGIN)
@@ -97,9 +101,9 @@ public class RepositoryDetailActivity extends BaseActivity implements SwipeRefre
     }
 
     @Override
-    public void requestSuccess(UserCompleteData userCompleteData) {
+    public void displayResult(UserCompleteData userCompleteData) {
         name = userCompleteData.owner.login;
-        swipeRefersh.setRefreshing(false);
+        swipeRefresh.setRefreshing(false);
         tvDefaultBranch.setText(userCompleteData.githubRepository.defaultBranch);
         tvForkCount.setText(String.valueOf(userCompleteData.githubRepository.forks));
         if (userCompleteData.githubRepository.language != null
@@ -117,8 +121,8 @@ public class RepositoryDetailActivity extends BaseActivity implements SwipeRefre
     }
 
     @Override
-    public void requestError(String message) {
-        swipeRefersh.setRefreshing(false);
+    public void displayError(String message) {
+        swipeRefresh.setRefreshing(false);
         MessageDialog messageDialog = new MessageDialog(this);
         messageDialog.setTitle(getString(R.string.ERROR));
         messageDialog.setContent(message != null ? message : getString(R.string.UNKOWN_ERROR));

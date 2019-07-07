@@ -8,7 +8,7 @@
         android:id="@+id/linearlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/greyLoading"
+        android:background="@color/lightGrey"
         android:gravity="center"
         android:minHeight="120dp"
         android:orientation="vertical"
@@ -19,7 +19,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/error"
-            android:tint="@color/dashboardOrange" />
+            android:tint="@color/lightOrange" />
 
         <TextView
             android:id="@+id/title"
@@ -46,7 +46,7 @@
             android:layout_margin="8dp"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/dashboardGrey"
+            android:textColor="@color/midGrey"
             android:textStyle="bold" />
     </LinearLayout>
 

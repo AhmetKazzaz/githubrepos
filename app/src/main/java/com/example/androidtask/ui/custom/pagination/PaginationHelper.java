@@ -3,16 +3,18 @@ package com.example.androidtask.ui.custom.pagination;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
+
 /**
  * this class is a helper class that is responsible for implementing the scroll listener and animating extra passed views
  */
 public class PaginationHelper {
 
-    private PaginationInterface paginationInterface;
+    private WeakReference<PaginatedView> paginatedView;
 
-    public PaginationHelper(PaginationInterface paginationInterface) {
-        this.paginationInterface = paginationInterface;
-        onScrollListener();
+    public PaginationHelper(@NonNull PaginatedView paginated) {
+        this.paginatedView = new WeakReference<>(paginated);
+        onScrollListener(paginated);
     }
 
     private boolean isFiltersBarHide = false;
@@ -23,32 +25,35 @@ public class PaginationHelper {
      * Recyclerview (in this case: in this challenge project all data is dynamic)
      * then adds a scroll listener to it that checks invokes the loadMoreItems to fetch more data [Pagination]
      */
-    private void onScrollListener() {
-        if (paginationInterface.passScrollView() instanceof RecyclerView) {
-            ((RecyclerView) paginationInterface.passScrollView()).addOnScrollListener(new RecyclerView.OnScrollListener() {
+    private void onScrollListener(PaginatedView paginated) {
+
+        if (paginated.passScrollView() instanceof RecyclerView) {
+            ((RecyclerView) paginated.passScrollView()).addOnScrollListener(new RecyclerView.OnScrollListener() {
 
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
 
-                    int visibleItemCount = paginationInterface.passLinearLayoutManager().getChildCount();
-                    int totalItemCount = paginationInterface.passLinearLayoutManager().getItemCount();
-                    int firstVisibleItemPosition = paginationInterface.passLinearLayoutManager().findFirstVisibleItemPosition();
+                    PaginatedView pagination = paginatedView.get();
+                    if (pagination != null) {
+                        int visibleItemCount = pagination.passLinearLayoutManager().getChildCount();
+                        int totalItemCount = pagination.passLinearLayoutManager().getItemCount();
+                        int firstVisibleItemPosition = pagination.passLinearLayoutManager().findFirstVisibleItemPosition();
 
-                    if (!paginationInterface.isLoading() && !paginationInterface.isLastPage()) {
-                        if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                                && firstVisibleItemPosition >= 0) {
-                            paginationInterface.loadMoreItems();
+                        if (!pagination.isLoading() && !pagination.isLastPage()) {
+                            if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                                    && firstVisibleItemPosition >= 0) {
+                                pagination.loadMoreItems();
+                            }
+                        }
+
+                        if (dy > 0) {
+                            animatePassedView(true, false);
+
+                        } else {
+                            animatePassedView(false, false);
                         }
                     }
-
-                    if (dy > 0) {
-                        animatePassedView(true, false);
-
-                    } else {
-                        animatePassedView(false, false);
-                    }
-
                 }
             });
         }
@@ -62,12 +67,14 @@ public class PaginationHelper {
      * @param isFast: true if the animation should be fast, false if should be normal
      */
     public void animatePassedView(final boolean hide, boolean isFast) {
-        if (paginationInterface.passOtherViewToAnimate() == null) return;
+        if (paginatedView.get() == null) return;
+
+        if (paginatedView.get().passOtherViewToAnimate() == null) return;
 
         if (isFiltersBarHide && hide || !isFiltersBarHide && !hide) return;
         isFiltersBarHide = hide;
-        int moveY = hide ? -(2 * paginationInterface.passOtherViewToAnimate().getHeight()) : 0;
-        paginationInterface.passOtherViewToAnimate().animate().translationY(moveY).setStartDelay(isFast ? 0 : 100).setDuration(isFast ? 100 : 300).start();
+        int moveY = hide ? -(2 * paginatedView.get().passOtherViewToAnimate().getHeight()) : 0;
+        paginatedView.get().passOtherViewToAnimate().animate().translationY(moveY).setStartDelay(isFast ? 0 : 100).setDuration(isFast ? 100 : 300).start();
     }
 
     /**
@@ -80,7 +87,6 @@ public class PaginationHelper {
     public String linkDecode(String linkHeader) {
         String META_REL = "rel";
         String META_LAST = "last";
-        String META_FIRST = "first";
 
         String last = null;
         if (linkHeader != null) {
@@ -104,8 +110,7 @@ public class PaginationHelper {
                     if (relValue.startsWith("\"") && relValue.endsWith("\"")) //$NON-NLS-1$ //$NON-NLS-2$
                         relValue = relValue.substring(1, relValue.length() - 1);
 
-                    if (META_FIRST.equals(relValue)) {
-                    } else if (META_LAST.equals(relValue))
+                    if (META_LAST.equals(relValue))
                         last = linkPart;
                 }
             }
